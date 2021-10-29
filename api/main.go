@@ -12,6 +12,7 @@ import (
 	"github.com/pivotal/kpack/pkg/registry"
 	k8sclient "k8s.io/client-go/kubernetes"
 
+	"code.cloudfoundry.org/cf-k8s-api/actions"
 	"code.cloudfoundry.org/cf-k8s-api/apis"
 	"code.cloudfoundry.org/cf-k8s-api/config"
 	"code.cloudfoundry.org/cf-k8s-api/payloads"
@@ -79,6 +80,8 @@ func main() {
 	}
 
 	orgRepo := repositories.NewOrgRepo(config.RootNamespace, privilegedCRClient, createTimeout)
+	scaleProcessAction := actions.NewScaleAppProcess(new(repositories.ProcessRepository))
+
 	handlers := []APIHandler{
 		apis.NewRootV3Handler(config.ServerURL),
 		apis.NewRootHandler(
@@ -137,6 +140,7 @@ func main() {
 			ctrl.Log.WithName("ProcessHandler"),
 			*serverURL,
 			new(repositories.ProcessRepository),
+			scaleProcessAction.Invoke,
 			repositories.BuildCRClient,
 			k8sClientConfig,
 		),
