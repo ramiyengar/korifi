@@ -157,7 +157,7 @@ var _ = Describe("RouteHandler", func() {
 
 		When("the route cannot be found", func() {
 			BeforeEach(func() {
-				routeRepo.GetRouteReturns(repositories.RouteRecord{}, repositories.NotFoundError{Err: errors.New("not found")})
+				routeRepo.GetRouteReturns(repositories.RouteRecord{}, repositories.PermissionDeniedOrNotFoundError{Err: errors.New("not found")})
 
 				router.ServeHTTP(rr, req)
 			})
@@ -169,7 +169,7 @@ var _ = Describe("RouteHandler", func() {
 
 		When("the route's domain cannot be found", func() {
 			BeforeEach(func() {
-				domainRepo.GetDomainReturns(repositories.DomainRecord{}, repositories.NotFoundError{Err: errors.New("not found")})
+				domainRepo.GetDomainReturns(repositories.DomainRecord{}, repositories.PermissionDeniedOrNotFoundError{Err: errors.New("not found")})
 
 				router.ServeHTTP(rr, req)
 			})
@@ -1118,7 +1118,7 @@ var _ = Describe("RouteHandler", func() {
 
 		When("the route cannot be found", func() {
 			BeforeEach(func() {
-				routeRepo.GetRouteReturns(repositories.RouteRecord{}, repositories.NotFoundError{Err: errors.New("not found")})
+				routeRepo.GetRouteReturns(repositories.RouteRecord{}, repositories.PermissionDeniedOrNotFoundError{Err: errors.New("not found")})
 			})
 
 			It("returns an error", func() {
@@ -1331,7 +1331,7 @@ var _ = Describe("RouteHandler", func() {
 
 			When("the route doesn't exist", func() {
 				BeforeEach(func() {
-					routeRepo.GetRouteReturns(repositories.RouteRecord{}, repositories.NotFoundError{})
+					routeRepo.GetRouteReturns(repositories.RouteRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 				})
 
 				It("responds with 422 and an error", func() {

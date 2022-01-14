@@ -45,7 +45,7 @@ func (r *DomainRepo) GetDomain(ctx context.Context, authInfo authorization.Info,
 		case *k8serrors.StatusError:
 			reason := errtype.Status().Reason
 			if reason == metav1.StatusReasonNotFound || reason == metav1.StatusReasonUnauthorized {
-				return DomainRecord{}, PermissionDeniedOrNotFoundError{Err: err}
+				return DomainRecord{}, PermissionDeniedOrNotFoundError{Err: err, ResourceType: "Domain"}
 			}
 		}
 
@@ -76,7 +76,7 @@ func (r *DomainRepo) GetDomainByName(ctx context.Context, authInfo authorization
 	}
 
 	if len(domainRecords) == 0 {
-		return DomainRecord{}, NotFoundError{
+		return DomainRecord{}, PermissionDeniedOrNotFoundError{
 			Err:          err,
 			ResourceType: "Domain",
 		}
@@ -92,7 +92,7 @@ func (r *DomainRepo) GetDefaultDomain(ctx context.Context, authInfo authorizatio
 		return DomainRecord{}, err
 	}
 	if len(domainList) == 0 {
-		return DomainRecord{}, NotFoundError{ResourceType: "Default Domain"}
+		return DomainRecord{}, PermissionDeniedOrNotFoundError{ResourceType: "Default Domain"}
 	}
 	return domainList[0], nil
 }

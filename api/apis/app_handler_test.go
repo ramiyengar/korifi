@@ -174,7 +174,7 @@ var _ = Describe("AppHandler", func() {
 		})
 		When("the app cannot be found", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			// TODO: should we return code 100004 instead?
@@ -788,7 +788,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the App doesn't exist", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			It("returns an error", func() {
@@ -799,7 +799,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the Droplet doesn't exist", func() {
 			BeforeEach(func() {
-				dropletRepo.GetDropletReturns(repositories.DropletRecord{}, repositories.NotFoundError{})
+				dropletRepo.GetDropletReturns(repositories.DropletRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			It("returns an error", func() {
@@ -978,7 +978,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the app cannot be found", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			// TODO: should we return code 100004 instead?
@@ -1245,7 +1245,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the app cannot be found", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			It("returns an error", func() {
@@ -1572,7 +1572,7 @@ var _ = Describe("AppHandler", func() {
 		When("On the sad path and", func() {
 			When("the app cannot be found", func() {
 				BeforeEach(func() {
-					appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+					appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 				})
 
 				It("returns an error", func() {
@@ -1816,7 +1816,7 @@ var _ = Describe("AppHandler", func() {
 
 			When("the process doesn't exist", func() {
 				BeforeEach(func() {
-					scaleAppProcessFunc.Returns(repositories.ProcessRecord{}, repositories.NotFoundError{ResourceType: "Process"})
+					scaleAppProcessFunc.Returns(repositories.ProcessRecord{}, repositories.PermissionDeniedOrNotFoundError{ResourceType: "Process"})
 				})
 
 				It("returns an error", func() {
@@ -1826,7 +1826,7 @@ var _ = Describe("AppHandler", func() {
 
 			When("the app doesn't exist", func() {
 				BeforeEach(func() {
-					scaleAppProcessFunc.Returns(repositories.ProcessRecord{}, repositories.NotFoundError{ResourceType: "App"})
+					scaleAppProcessFunc.Returns(repositories.ProcessRecord{}, repositories.PermissionDeniedOrNotFoundError{ResourceType: "App"})
 				})
 
 				It("returns an error", func() {
@@ -2034,7 +2034,7 @@ var _ = Describe("AppHandler", func() {
 		When("on the sad path and", func() {
 			When("the app cannot be found", func() {
 				BeforeEach(func() {
-					appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+					appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 				})
 
 				It("returns an error", func() {
@@ -2194,7 +2194,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the App doesn't exist", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			It("returns an error", func() {
@@ -2214,7 +2214,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the Droplet doesn't exist", func() {
 			BeforeEach(func() {
-				dropletRepo.GetDropletReturns(repositories.DropletRecord{}, repositories.NotFoundError{})
+				dropletRepo.GetDropletReturns(repositories.DropletRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			It("returns an error", func() {
@@ -2464,7 +2464,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the app cannot be found", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			// TODO: should we return code 100004 instead?
@@ -2567,7 +2567,7 @@ var _ = Describe("AppHandler", func() {
 
 		When("the App doesn't exist", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			It("returns an error", func() {

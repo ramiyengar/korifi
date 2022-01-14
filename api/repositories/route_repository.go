@@ -274,7 +274,7 @@ func filterByAppDestination(routeList []networkingv1alpha1.CFRoute, appGUID stri
 
 func returnRoute(routeList []networkingv1alpha1.CFRoute) (RouteRecord, error) {
 	if len(routeList) == 0 {
-		return RouteRecord{}, NotFoundError{}
+		return RouteRecord{}, PermissionDeniedOrNotFoundError{ResourceType: "Route"}
 	}
 
 	if len(routeList) > 1 {

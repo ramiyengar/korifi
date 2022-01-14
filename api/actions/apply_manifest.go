@@ -32,7 +32,7 @@ func (a *applyManifest) Invoke(ctx context.Context, authInfo authorization.Info,
 	exists := true
 	appRecord, err := a.appRepo.GetAppByNameAndSpace(ctx, authInfo, appInfo.Name, spaceGUID)
 	if err != nil {
-		if !errors.As(err, new(repositories.NotFoundError)) {
+		if !errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)) {
 			return err
 		}
 		exists = false
@@ -102,7 +102,7 @@ func (a *applyManifest) updateApp(ctx context.Context, authInfo authorization.In
 		var process repositories.ProcessRecord
 		process, err = a.processRepo.GetProcessByAppTypeAndSpace(ctx, authInfo, appRecord.GUID, processInfo.Type, spaceGUID)
 		if err != nil {
-			if errors.As(err, new(repositories.NotFoundError)) {
+			if errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)) {
 				exists = false
 			} else {
 				return err

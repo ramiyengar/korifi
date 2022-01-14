@@ -187,7 +187,7 @@ var _ = Describe("DropletRepository", func() {
 						Eventually(func() error {
 							_, err := dropletRepo.GetDroplet(testCtx, authInfo, buildGUID)
 							return err
-						}, 10*time.Second, 250*time.Millisecond).Should(MatchError(NotFoundError{}))
+						}, 10*time.Second, 250*time.Millisecond).Should(MatchError(PermissionDeniedOrNotFoundError{}))
 					})
 				})
 				When("status.Conditions \"Staging\": True, \"Succeeded\": Unknown, is set", func() {
@@ -211,7 +211,7 @@ var _ = Describe("DropletRepository", func() {
 						Eventually(func() error {
 							_, err := dropletRepo.GetDroplet(testCtx, authInfo, buildGUID)
 							return err
-						}, 10*time.Second, 250*time.Millisecond).Should(MatchError(NotFoundError{}))
+						}, 10*time.Second, 250*time.Millisecond).Should(MatchError(PermissionDeniedOrNotFoundError{}))
 					})
 				})
 				When("status.Conditions \"Staging\": False, \"Succeeded\": False, is set", func() {
@@ -235,7 +235,7 @@ var _ = Describe("DropletRepository", func() {
 						Eventually(func() error {
 							_, err := dropletRepo.GetDroplet(testCtx, authInfo, buildGUID)
 							return err
-						}, 10*time.Second, 250*time.Millisecond).Should(MatchError(NotFoundError{}))
+						}, 10*time.Second, 250*time.Millisecond).Should(MatchError(PermissionDeniedOrNotFoundError{}))
 					})
 				})
 			})
@@ -245,7 +245,7 @@ var _ = Describe("DropletRepository", func() {
 			It("returns an error", func() {
 				_, err := dropletRepo.GetDroplet(testCtx, authInfo, "i don't exist")
 				Expect(err).To(HaveOccurred())
-				Expect(err).To(MatchError(NotFoundError{}))
+				Expect(err).To(MatchError(PermissionDeniedOrNotFoundError{}))
 			})
 		})
 	})

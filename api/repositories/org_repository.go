@@ -387,7 +387,7 @@ func (r *OrgRepo) GetSpace(ctx context.Context, info authorization.Info, spaceGU
 	}
 
 	if len(spaceRecords) == 0 {
-		return SpaceRecord{}, NotFoundError{ResourceType: "Space"}
+		return SpaceRecord{}, PermissionDeniedOrNotFoundError{ResourceType: "Space"}
 	}
 
 	return spaceRecords[0], nil

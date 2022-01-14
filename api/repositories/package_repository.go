@@ -220,7 +220,7 @@ func filterPackagesByMetadataName(packages []workloadsv1alpha1.CFPackage, name s
 
 func returnPackage(packages []workloadsv1alpha1.CFPackage) (PackageRecord, error) {
 	if len(packages) == 0 {
-		return PackageRecord{}, NotFoundError{}
+		return PackageRecord{}, PermissionDeniedOrNotFoundError{}
 	}
 	if len(packages) > 1 {
 		return PackageRecord{}, errors.New("duplicate packages exist")

@@ -86,7 +86,7 @@ func (h PackageHandler) packageGetHandler(authInfo authorization.Info, w http.Re
 	record, err := h.packageRepo.GetPackage(r.Context(), authInfo, packageGUID)
 	if err != nil {
 		switch {
-		case errors.As(err, new(repositories.NotFoundError)):
+		case errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)):
 			writeNotFoundErrorResponse(w, "Package")
 		default:
 			h.logger.Info("Error fetching package with repository", "error", err.Error())
@@ -163,7 +163,7 @@ func (h PackageHandler) packageCreateHandler(authInfo authorization.Info, w http
 	appRecord, err := h.appRepo.GetApp(r.Context(), authInfo, payload.Relationships.App.Data.GUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "App GUID", payload.Relationships.App.Data.GUID)
 			writeUnprocessableEntityError(w, "App is invalid. Ensure it exists and you have access to it.")
 		default:
@@ -208,7 +208,7 @@ func (h PackageHandler) packageUploadHandler(authInfo authorization.Info, w http
 	record, err := h.packageRepo.GetPackage(r.Context(), authInfo, packageGUID)
 	if err != nil {
 		switch {
-		case errors.As(err, new(repositories.NotFoundError)):
+		case errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)):
 			writeNotFoundErrorResponse(w, "Package")
 		default:
 			h.logger.Info("Error fetching package with repository", "error", err.Error())
@@ -296,7 +296,7 @@ func (h PackageHandler) packageListDropletsHandler(authInfo authorization.Info, 
 	_, err = h.packageRepo.GetPackage(r.Context(), authInfo, packageGUID)
 	if err != nil {
 		switch {
-		case errors.As(err, new(repositories.NotFoundError)):
+		case errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)):
 			writeNotFoundErrorResponse(w, "Package")
 		default:
 			h.logger.Info("Error fetching package with repository", "error", err.Error())

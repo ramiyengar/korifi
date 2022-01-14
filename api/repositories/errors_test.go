@@ -11,26 +11,26 @@ import (
 
 var _ = Describe("Errors", func() {
 	Describe("NotFoundError", func() {
-		var e NotFoundError
+		var e PermissionDeniedOrNotFoundError
 
 		Describe("Error function", func() {
 			It("with empty struct, has canned response", func() {
-				e = NotFoundError{}
+				e = PermissionDeniedOrNotFoundError{}
 				Expect(e.Error()).To(Equal("not found"))
 			})
 
 			It("with ResourceType, prepends resource info", func() {
-				e = NotFoundError{ResourceType: "Foo Resource"}
+				e = PermissionDeniedOrNotFoundError{ResourceType: "Foo Resource"}
 				Expect(e.Error()).To(Equal("Foo Resource not found"))
 			})
 
 			It("with wrapped error, appends error into", func() {
-				e = NotFoundError{Err: errors.New("wrapped error")}
+				e = PermissionDeniedOrNotFoundError{Err: errors.New("wrapped error")}
 				Expect(e.Error()).To(Equal("not found: wrapped error"))
 			})
 
 			It("with ResourceType and wrapped error, prepends resource and appends error info", func() {
-				e = NotFoundError{ResourceType: "Bar Resource", Err: errors.New("wrapped error")}
+				e = PermissionDeniedOrNotFoundError{ResourceType: "Bar Resource", Err: errors.New("wrapped error")}
 				Expect(e.Error()).To(Equal("Bar Resource not found: wrapped error"))
 			})
 		})

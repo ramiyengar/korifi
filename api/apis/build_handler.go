@@ -57,7 +57,7 @@ func (h *BuildHandler) buildGetHandler(authInfo authorization.Info, w http.Respo
 	build, err := h.buildRepo.GetBuild(ctx, authInfo, buildGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Build not found", "BuildGUID", buildGUID)
 			writeNotFoundErrorResponse(w, "Build")
 			return
@@ -88,7 +88,7 @@ func (h *BuildHandler) buildCreateHandler(authInfo authorization.Info, w http.Re
 	packageRecord, err := h.packageRepo.GetPackage(r.Context(), authInfo, payload.Package.GUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Package not found", "Package GUID", payload.Package.GUID)
 			writeUnprocessableEntityError(w, "Unable to use package. Ensure that the package exists and you have access to it.")
 		default:

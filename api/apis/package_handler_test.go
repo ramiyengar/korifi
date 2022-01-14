@@ -154,7 +154,7 @@ var _ = Describe("PackageHandler", func() {
 
 		When("on the sad path", func() {
 			BeforeEach(func() {
-				packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.NotFoundError{})
+				packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			JustBeforeEach(func() {
@@ -641,7 +641,7 @@ var _ = Describe("PackageHandler", func() {
 
 		When("the app doesn't exist", func() {
 			BeforeEach(func() {
-				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.NotFoundError{})
+				appRepo.GetAppReturns(repositories.AppRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			JustBeforeEach(func() {
@@ -932,7 +932,7 @@ var _ = Describe("PackageHandler", func() {
 
 		When("the record doesn't exist", func() {
 			BeforeEach(func() {
-				packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.NotFoundError{})
+				packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			JustBeforeEach(func() {
@@ -1253,7 +1253,7 @@ var _ = Describe("PackageHandler", func() {
 		When("on the sad path and", func() {
 			When("the package does not exist", func() {
 				BeforeEach(func() {
-					packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.NotFoundError{})
+					packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 				})
 
 				It("returns the error", func() {

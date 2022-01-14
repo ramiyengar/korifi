@@ -51,7 +51,7 @@ func (h *DropletHandler) dropletGetHandler(authInfo authorization.Info, w http.R
 	droplet, err := h.dropletRepo.GetDroplet(ctx, authInfo, dropletGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Droplet not found", "dropletGUID", dropletGUID)
 			writeNotFoundErrorResponse(w, "Droplet")
 			return

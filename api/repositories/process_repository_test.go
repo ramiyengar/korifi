@@ -179,7 +179,7 @@ var _ = Describe("ProcessRepo", func() {
 			It("returns an error", func() {
 				_, err := processRepo.GetProcess(testCtx, authInfo, "i don't exist")
 				Expect(err).To(HaveOccurred())
-				Expect(err).To(MatchError(NotFoundError{ResourceType: "Process"}))
+				Expect(err).To(MatchError(PermissionDeniedOrNotFoundError{ResourceType: "Process"}))
 			})
 		})
 	})
@@ -486,7 +486,7 @@ var _ = Describe("ProcessRepo", func() {
 		When("there is no matching process", func() {
 			It("returns a NotFoundError", func() {
 				_, err := processRepo.GetProcessByAppTypeAndSpace(testCtx, authInfo, app1GUID, processType, namespace.Name)
-				Expect(err).To(MatchError(NotFoundError{ResourceType: "Process"}))
+				Expect(err).To(MatchError(PermissionDeniedOrNotFoundError{ResourceType: "Process"}))
 			})
 		})
 	})

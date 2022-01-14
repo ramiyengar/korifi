@@ -103,7 +103,7 @@ func (h *AppHandler) appGetHandler(authInfo authorization.Info, w http.ResponseW
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "AppGUID", appGUID)
 			writeNotFoundErrorResponse(w, "App")
 			return
@@ -238,7 +238,7 @@ func (h *AppHandler) appSetCurrentDropletHandler(authInfo authorization.Info, w 
 
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
-		if errors.As(err, new(repositories.NotFoundError)) {
+		if errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)) {
 			h.logger.Error(err, "App not found", "appGUID", app.GUID)
 			writeNotFoundErrorResponse(w, "App")
 		} else {
@@ -251,7 +251,7 @@ func (h *AppHandler) appSetCurrentDropletHandler(authInfo authorization.Info, w 
 	dropletGUID := payload.Data.GUID
 	droplet, err := h.dropletRepo.GetDroplet(ctx, authInfo, dropletGUID)
 	if err != nil {
-		if errors.As(err, new(repositories.NotFoundError)) {
+		if errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)) {
 			writeUnprocessableEntityError(w, invalidDropletMsg)
 		} else {
 			h.logger.Error(err, "Error fetching droplet")
@@ -291,7 +291,7 @@ func (h *AppHandler) appGetCurrentDropletHandler(authInfo authorization.Info, w 
 
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
-		if errors.As(err, new(repositories.NotFoundError)) {
+		if errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)) {
 			h.logger.Error(err, "App not found", "appGUID", app.GUID)
 			writeNotFoundErrorResponse(w, "App")
 		} else {
@@ -310,7 +310,7 @@ func (h *AppHandler) appGetCurrentDropletHandler(authInfo authorization.Info, w 
 	droplet, err := h.dropletRepo.GetDroplet(ctx, authInfo, app.DropletGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Droplet not found", "dropletGUID", app.DropletGUID)
 			writeNotFoundErrorResponse(w, "Droplet")
 			return
@@ -338,7 +338,7 @@ func (h *AppHandler) appStartHandler(authInfo authorization.Info, w http.Respons
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "AppGUID", appGUID)
 			writeNotFoundErrorResponse(w, "App")
 			return
@@ -382,7 +382,7 @@ func (h *AppHandler) appStopHandler(authInfo authorization.Info, w http.Response
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "AppGUID", appGUID)
 			writeNotFoundErrorResponse(w, "App")
 			return
@@ -421,7 +421,7 @@ func (h *AppHandler) getProcessesForAppHandler(authInfo authorization.Info, w ht
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "AppGUID", appGUID)
 			writeNotFoundErrorResponse(w, "App")
 			return
@@ -461,7 +461,7 @@ func (h *AppHandler) getRoutesForAppHandler(authInfo authorization.Info, w http.
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "AppGUID", appGUID)
 			writeNotFoundErrorResponse(w, "App")
 			return
@@ -504,7 +504,7 @@ func (h *AppHandler) appScaleProcessHandler(authInfo authorization.Info, w http.
 	processRecord, err := h.scaleAppProcess(ctx, authInfo, appGUID, processType, payload.ToRecord())
 	if err != nil {
 		switch errType := err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			resourceType := errType.ResourceType
 			h.logger.Info(fmt.Sprintf("%s not found", resourceType), "appGUID", appGUID)
 			writeNotFoundErrorResponse(w, resourceType)
@@ -533,7 +533,7 @@ func (h *AppHandler) appRestartHandler(authInfo authorization.Info, w http.Respo
 	app, err := h.appRepo.GetApp(ctx, authInfo, appGUID)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "AppGUID", appGUID)
 			writeNotFoundErrorResponse(w, "App")
 			return
@@ -591,7 +591,7 @@ func (h *AppHandler) appDeleteHandler(authInfo authorization.Info, w http.Respon
 		w.Header().Set("Content-Type", "application/json")
 
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("App not found", "AppGUID", appGUID)
 			writeNotFoundErrorResponse(w, "App")
 			return

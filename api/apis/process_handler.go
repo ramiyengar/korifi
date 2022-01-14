@@ -133,7 +133,7 @@ func (h *ProcessHandler) processScaleHandler(authInfo authorization.Info, w http
 	processRecord, err := h.scaleProcess(ctx, authInfo, processGUID, payload.ToRecord())
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Process not found", "processGUID", processGUID)
 			writeNotFoundErrorResponse(w, "Process")
 			return
@@ -221,7 +221,7 @@ func (h *ProcessHandler) processListHandler(authInfo authorization.Info, w http.
 
 func (h *ProcessHandler) logError(w http.ResponseWriter, processGUID string, err error) {
 	switch tycerr := err.(type) {
-	case repositories.NotFoundError:
+	case repositories.PermissionDeniedOrNotFoundError:
 		h.logger.Info(fmt.Sprintf("%s not found", tycerr.ResourceType), "ProcessGUID", processGUID)
 		writeNotFoundErrorResponse(w, tycerr.ResourceType)
 	default:

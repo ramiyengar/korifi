@@ -66,7 +66,7 @@ func (b *BuildRepo) GetBuild(ctx context.Context, authInfo authorization.Info, b
 
 func returnBuild(builds []workloadsv1alpha1.CFBuild) (BuildRecord, error) {
 	if len(builds) == 0 {
-		return BuildRecord{}, NotFoundError{}
+		return BuildRecord{}, PermissionDeniedOrNotFoundError{}
 	}
 	if len(builds) > 1 {
 		return BuildRecord{}, errors.New("duplicate builds exist")

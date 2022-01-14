@@ -311,7 +311,7 @@ var _ = Describe("BuildHandler", func() {
 
 		When("the build cannot be found", func() {
 			BeforeEach(func() {
-				buildRepo.GetBuildReturns(repositories.BuildRecord{}, repositories.NotFoundError{})
+				buildRepo.GetBuildReturns(repositories.BuildRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 
 				router.ServeHTTP(rr, req)
 			})
@@ -509,7 +509,7 @@ var _ = Describe("BuildHandler", func() {
 
 		When("the package doesn't exist", func() {
 			BeforeEach(func() {
-				packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.NotFoundError{})
+				packageRepo.GetPackageReturns(repositories.PackageRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 				makePostRequest(validBody)
 			})
 

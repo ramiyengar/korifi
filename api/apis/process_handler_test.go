@@ -162,7 +162,7 @@ var _ = Describe("ProcessHandler", func() {
 		When("on the sad path and", func() {
 			When("the process doesn't exist", func() {
 				BeforeEach(func() {
-					processRepo.GetProcessReturns(repositories.ProcessRecord{}, repositories.NotFoundError{ResourceType: "Process"})
+					processRepo.GetProcessReturns(repositories.ProcessRecord{}, repositories.PermissionDeniedOrNotFoundError{ResourceType: "Process"})
 				})
 
 				It("returns an error", func() {
@@ -239,7 +239,7 @@ var _ = Describe("ProcessHandler", func() {
 		When("on the sad path and", func() {
 			When("the process doesn't exist", func() {
 				BeforeEach(func() {
-					processRepo.GetProcessReturns(repositories.ProcessRecord{}, repositories.NotFoundError{ResourceType: "Process"})
+					processRepo.GetProcessReturns(repositories.ProcessRecord{}, repositories.PermissionDeniedOrNotFoundError{ResourceType: "Process"})
 				})
 
 				It("returns an error", func() {
@@ -492,7 +492,7 @@ var _ = Describe("ProcessHandler", func() {
 
 			When("the process doesn't exist", func() {
 				BeforeEach(func() {
-					scaleProcessFunc.Returns(repositories.ProcessRecord{}, repositories.NotFoundError{ResourceType: "Process"})
+					scaleProcessFunc.Returns(repositories.ProcessRecord{}, repositories.PermissionDeniedOrNotFoundError{ResourceType: "Process"})
 				})
 
 				It("returns an error", func() {
@@ -615,7 +615,7 @@ var _ = Describe("ProcessHandler", func() {
 
 		When("the process is not found", func() {
 			BeforeEach(func() {
-				fetchProcessStats.Returns(nil, repositories.NotFoundError{ResourceType: "Process"})
+				fetchProcessStats.Returns(nil, repositories.PermissionDeniedOrNotFoundError{ResourceType: "Process"})
 			})
 			It("an error", func() {
 				expectNotFoundError("Process not found")
@@ -624,7 +624,7 @@ var _ = Describe("ProcessHandler", func() {
 
 		When("the app is not found", func() {
 			BeforeEach(func() {
-				fetchProcessStats.Returns(nil, repositories.NotFoundError{ResourceType: "App"})
+				fetchProcessStats.Returns(nil, repositories.PermissionDeniedOrNotFoundError{ResourceType: "App"})
 			})
 			It("an error", func() {
 				expectNotFoundError("App not found")

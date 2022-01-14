@@ -144,7 +144,7 @@ var _ = Describe("DropletHandler", func() {
 
 		When("the droplet cannot be found", func() {
 			BeforeEach(func() {
-				dropletRepo.GetDropletReturns(repositories.DropletRecord{}, repositories.NotFoundError{})
+				dropletRepo.GetDropletReturns(repositories.DropletRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 				router.ServeHTTP(rr, req)
 			})
 

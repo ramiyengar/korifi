@@ -157,7 +157,7 @@ func (h *SpaceHandler) spaceDeleteHandler(info authorization.Info, w http.Respon
 		}
 
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Space not found", "SpaceGUID", spaceGUID)
 			writeNotFoundErrorResponse(w, "Space")
 			return

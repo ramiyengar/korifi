@@ -68,7 +68,7 @@ func (h *RouteHandler) routeGetHandler(authInfo authorization.Info, w http.Respo
 	route, err := h.lookupRouteAndDomain(ctx, routeGUID, authInfo)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Route not found", "RouteGUID", routeGUID)
 			writeNotFoundErrorResponse(w, "Route")
 			return
@@ -145,7 +145,7 @@ func (h *RouteHandler) routeGetDestinationsHandler(authInfo authorization.Info, 
 	route, err := h.lookupRouteAndDomain(ctx, routeGUID, authInfo)
 	if err != nil {
 		switch err.(type) {
-		case repositories.NotFoundError:
+		case repositories.PermissionDeniedOrNotFoundError:
 			h.logger.Info("Route not found", "RouteGUID", routeGUID)
 			writeNotFoundErrorResponse(w, "Route")
 			return
@@ -179,7 +179,7 @@ func (h *RouteHandler) routeCreateHandler(authInfo authorization.Info, w http.Re
 	if err != nil {
 		switch err.(type) {
 		case repositories.PermissionDeniedOrNotFoundError:
-			h.logger.Info("Namespace not found", "Namespace GUID", namespaceGUID)
+			h.logger.Info(err.Error())
 			writeUnprocessableEntityError(w, "Invalid space. Ensure that the space exists and you have access to it.")
 			return
 		default:
@@ -194,7 +194,7 @@ func (h *RouteHandler) routeCreateHandler(authInfo authorization.Info, w http.Re
 	if err != nil {
 		switch err.(type) {
 		case repositories.PermissionDeniedOrNotFoundError:
-			h.logger.Info("Domain not found", "Domain GUID", domainGUID)
+			h.logger.Info(err.Error())
 			writeUnprocessableEntityError(w, "Invalid domain. Ensure that the domain exists and you have access to it.")
 			return
 		default:
@@ -239,7 +239,7 @@ func (h *RouteHandler) routeAddDestinationsHandler(authInfo authorization.Info, 
 
 	routeRecord, err := h.lookupRouteAndDomain(ctx, routeGUID, authInfo)
 	if err != nil {
-		if errors.As(err, new(repositories.NotFoundError)) {
+		if errors.As(err, new(repositories.PermissionDeniedOrNotFoundError)) {
 			h.logger.Info("Route not found", "RouteGUID", routeGUID)
 			writeUnprocessableEntityError(w, "Route is invalid. Ensure it exists and you have access to it.")
 		} else {

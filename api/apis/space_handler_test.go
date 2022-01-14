@@ -481,7 +481,7 @@ var _ = Describe("Spaces", func() {
 
 		When("the space doesn't exist", func() {
 			BeforeEach(func() {
-				spaceRepo.GetSpaceReturns(repositories.SpaceRecord{}, repositories.NotFoundError{})
+				spaceRepo.GetSpaceReturns(repositories.SpaceRecord{}, repositories.PermissionDeniedOrNotFoundError{})
 			})
 
 			It("returns an error", func() {

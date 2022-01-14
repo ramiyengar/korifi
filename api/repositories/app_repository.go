@@ -320,7 +320,7 @@ func (f *AppRepo) GetNamespace(ctx context.Context, authInfo authorization.Info,
 		case *k8serrors.StatusError:
 			reason := errtype.Status().Reason
 			if reason == metav1.StatusReasonNotFound || reason == metav1.StatusReasonUnauthorized {
-				return SpaceRecord{}, PermissionDeniedOrNotFoundError{Err: err}
+				return SpaceRecord{}, PermissionDeniedOrNotFoundError{Err: err, ResourceType: "Namespace"}
 			}
 		}
 		return SpaceRecord{}, err
@@ -449,10 +449,10 @@ func cfAppToAppRecord(cfApp workloadsv1alpha1.CFApp) AppRecord {
 
 func returnApp(apps []workloadsv1alpha1.CFApp) (AppRecord, error) {
 	if len(apps) == 0 {
-		return AppRecord{}, NotFoundError{ResourceType: "App"}
+		return AppRecord{}, PermissionDeniedOrNotFoundError{ResourceType: "App"}
 	}
 	if len(apps) == 0 {
-		return AppRecord{}, NotFoundError{ResourceType: "App"}
+		return AppRecord{}, PermissionDeniedOrNotFoundError{ResourceType: "App"}
 	}
 	if len(apps) > 1 {
 		return AppRecord{}, errors.New("duplicate apps exist")
