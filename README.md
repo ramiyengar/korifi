@@ -35,6 +35,9 @@ Please check our [contributing guidelines](/CONTRIBUTING.md) and our [good first
 
 This project follows [Cloud Foundry Code of Conduct](https://www.cloudfoundry.org/code-of-conduct/).
 
+## Tutorials
+Please follow the Korifi tutorials [available here](https://tutorials.cloudfoundry.org/korifi/)
+
 ## Hacking
 
 Our [hacking guide](./HACKING.md) has instructions on how to work on the project locally.
